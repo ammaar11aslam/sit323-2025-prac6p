@@ -1,115 +1,58 @@
-# SIT323-2025-Prac5D/6.1P: Cloud & Kubernetes Deployment of Calculator Microservice
+# SIT323 Task 6.1P – Deploying a Node.js App on Google Kubernetes Engine (GKE)
 
-## Overview
+## 📘 Overview
 
-This project is a Node.js-based calculator microservice that performs basic and advanced operations such as:
-
-- Addition, Subtraction, Multiplication, Division
-- Exponentiation
-- Square Root
-- Modulo
-
-It has been:
-
-- Containerised using Docker
-- **Published to Google Cloud's Container Registry (GCR)** for Task 5.2D
-- **Deployed to Kubernetes using Docker Desktop's built-in Kubernetes** for Task 6.1P
+This task demonstrates deploying a containerized Node.js calculator microservice to a **Kubernetes cluster hosted on Google Kubernetes Engine (GKE)**. The application was previously containerized in Task 5.1P and pushed to Google Container Registry (GCR). This task highlights orchestration using Kubernetes in a cloud-native environment with public access.
 
 ---
 
-## Docker & GCR Instructions (Task 5.2D)
+## ⚙️ Tools & Services Used
 
-### Step 1: Build Docker Image
+- Node.js + Express
+- Docker
+- Google Cloud SDK
+- Google Kubernetes Engine (GKE)
+- Google Container Registry (GCR)
+- kubectl
 
-```bash
-docker build -t sit323-2025-prac5p-web .
-```
+---
 
-### Step 2: Tag the Image for GCR
+## 🚀 Deployment Steps
 
-```bash
-docker tag sit323-2025-prac5p-web:latest gcr.io/distincton/calculator:latest
-```
+### 1. Set Google Cloud Project
 
-### Step 3: Authenticate & Push to GCR
-
-```bash
-gcloud auth login
+```powershell
 gcloud config set project distincton
-gcloud auth configure-docker
-docker push gcr.io/distincton/calculator:latest
 ```
 
-Published Image:
+### 2. Create a GKE Cluster
 
+```powershell
+gcloud container clusters create node-app-cluster --num-nodes=2 --zone=australia-southeast1-a
 ```
-gcr.io/distincton/calculator:latest
+
+### 3. Authenticate kubectl with the Cluster
+
+```powershell
+gcloud container clusters get-credentials node-app-cluster --zone=australia-southeast1-a --project=distincton
 ```
 
----
+### 4. Deploy the App to Kubernetes
 
-## Kubernetes Deployment (Task 6.1P)
-
-### Step 1: Enable Kubernetes in Docker Desktop
-
-- Open Docker Desktop > Settings > Kubernetes
-- Tick ✅ "Enable Kubernetes"
-- Apply & Restart
-- Wait for "Kubernetes is running"
-
-### Step 2: Apply Kubernetes Configurations
-
-```bash
+```powershell
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
 ```
 
-### Step 3: Verify Deployment
-
-```bash
-kubectl get pods
-kubectl get services
-```
-
-### Step 4: Access the Service
-
-```bash
-kubectl port-forward service/node-app-service 8080:80
-```
-
-Open in browser: [http://localhost:8080](http://localhost:8080)
-
----
-
-## API Endpoints (Test in Browser/Postman)
-
-| Endpoint    | Example                    |
-| ----------- | -------------------------- |
-| Add         | `/add?num1=10&num2=5`      |
-| Subtract    | `/subtract?num1=10&num2=5` |
-| Multiply    | `/multiply?num1=10&num2=5` |
-| Divide      | `/divide?num1=10&num2=5`   |
-| Exponent    | `/exponent?base=2&power=3` |
-| Square Root | `/sqrt?num=25`             |
-| Modulo      | `/modulo?num1=10&num2=3`   |
-
-Example URL:
+## 📁 Project Structure
 
 ```
-http://localhost:8080/add?num1=10&num2=5
-```
-
----
-
-## Project Structure
-
-```
-sit323-2025-prac5d/
-├── server.js
+sit323-2025-prac6p/
 ├── Dockerfile
+├── server.js
 ├── package.json
 ├── deployment.yaml
 ├── service.yaml
 ├── README.md
-└── screenshots/ (optional)
+└── screenshots/
 ```

@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: node-app
-          image: gcr.io/YOUR_PROJECT_ID/your-node-app
+          image: gcr.io/distincton/calculator:latest
           ports:
             - containerPort: 3000
