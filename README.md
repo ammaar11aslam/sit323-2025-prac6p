@@ -113,25 +113,3 @@ sit323-2025-prac5d/
 ├── README.md
 └── screenshots/ (optional)
 ```
-
----
-
-## GitHub Submission
-
-Push everything to this repo:
-
-```
-https://github.com/ammaar11aslam/sit323-2025-prac6p
-```
-
-Then submit that link on OnTrack.
-
----
-
-## Tech Stack
-
-- Node.js + Express
-- Docker
-- Google Cloud SDK
-- Google Container Registry (GCR)
-- Kubernetes (via Docker Desktop)
