@@ -1,4 +1,4 @@
-# SIT323-2025-Prac5D: Cloud Deployment of Calculator Microservice
+# SIT323-2025-Prac5D/6.1P: Cloud & Kubernetes Deployment of Calculator Microservice
 
 ## Overview
 
@@ -9,11 +9,15 @@ This project is a Node.js-based calculator microservice that performs basic and 
 - Square Root
 - Modulo
 
-It has been containerised using Docker and **published to Google Cloud's Container Registry** (GCR) for Task 5.2D.
+It has been:
+
+- Containerised using Docker
+- **Published to Google Cloud's Container Registry (GCR)** for Task 5.2D
+- **Deployed to Kubernetes using Docker Desktop's built-in Kubernetes** for Task 6.1P
 
 ---
 
-## Docker & GCR Instructions
+## Docker & GCR Instructions (Task 5.2D)
 
 ### Step 1: Build Docker Image
 
@@ -36,7 +40,7 @@ gcloud auth configure-docker
 docker push gcr.io/distincton/calculator:latest
 ```
 
-This publishes your Docker image to:
+Published Image:
 
 ```
 gcr.io/distincton/calculator:latest
@@ -44,14 +48,36 @@ gcr.io/distincton/calculator:latest
 
 ---
 
-## How to Pull & Run from GCR
+## Kubernetes Deployment (Task 6.1P)
 
-From any machine with Docker:
+### Step 1: Enable Kubernetes in Docker Desktop
+
+- Open Docker Desktop > Settings > Kubernetes
+- Tick ✅ "Enable Kubernetes"
+- Apply & Restart
+- Wait for "Kubernetes is running"
+
+### Step 2: Apply Kubernetes Configurations
 
 ```bash
-docker pull gcr.io/distincton/calculator:latest
-docker run -p 3000:3000 gcr.io/distincton/calculator:latest
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
 ```
+
+### Step 3: Verify Deployment
+
+```bash
+kubectl get pods
+kubectl get services
+```
+
+### Step 4: Access the Service
+
+```bash
+kubectl port-forward service/node-app-service 8080:80
+```
+
+Open in browser: [http://localhost:8080](http://localhost:8080)
 
 ---
 
@@ -67,10 +93,10 @@ docker run -p 3000:3000 gcr.io/distincton/calculator:latest
 | Square Root | `/sqrt?num=25`             |
 | Modulo      | `/modulo?num1=10&num2=3`   |
 
-Test URL:
+Example URL:
 
 ```
-http://localhost:3000/add?num1=10&num2=5
+http://localhost:8080/add?num1=10&num2=5
 ```
 
 ---
@@ -82,8 +108,10 @@ sit323-2025-prac5d/
 ├── server.js
 ├── Dockerfile
 ├── package.json
-├── docker-compose.yml (if applicable)
-└── README.md
+├── deployment.yaml
+├── service.yaml
+├── README.md
+└── screenshots/ (optional)
 ```
 
 ---
@@ -93,7 +121,7 @@ sit323-2025-prac5d/
 Push everything to this repo:
 
 ```
-https://github.com/ammaar11aslam/sit323-2025-prac5d
+https://github.com/ammaar11aslam/sit323-2025-prac6p
 ```
 
 Then submit that link on OnTrack.
@@ -106,3 +134,4 @@ Then submit that link on OnTrack.
 - Docker
 - Google Cloud SDK
 - Google Container Registry (GCR)
+- Kubernetes (via Docker Desktop)
